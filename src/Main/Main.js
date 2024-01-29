@@ -2,9 +2,20 @@ import { useState } from "react";
 
 const paintSpan = async (setConnection) => {
     try {
-        const resp = await window.electronAPI.test_connection()
-        console.log({resp});
-        setConnection(resp);
+        const resp = await window.electronAPI.handleChannel();
+        console.log({ resp });
+        // const resp = await window.electronAPI.test()
+        // console.log({resp});
+        // setConnection(resp);
+    } catch (error) {
+        console.log({ error });
+    }
+}
+
+const getUsers = async () => {
+    try {
+        const resp = await window.electronAPI.handleChannel();
+        console.log({ resp });
     } catch (error) {
         console.log({ error });
     }
@@ -12,6 +23,7 @@ const paintSpan = async (setConnection) => {
 
 function Main() {
     const [connection, setConnection] = useState(false);
+
     return (
         <div className="grid">
             <button
@@ -21,6 +33,13 @@ function Main() {
             >
                 <p>{connection ? 'Y' : 'N'}</p>
                 Test Connection
+            </button>
+            <button
+                onClick={() => {
+                    getUsers();
+                }}
+            >
+                Users
             </button>
             {/* <span className={ connection ? "p-1 m-auto bg-red" : "p-1 m-auto bg-green"}></span> */}
             <span className="p-1 m-auto bg-red"></span>

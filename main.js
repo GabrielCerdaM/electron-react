@@ -1,7 +1,8 @@
 require('dotenv').config()
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+
 const path = require('path');
-const { default: testConnection } = require('./sequelize');
+
 
 function createWindow() {
   // Create the browser window.
@@ -9,35 +10,41 @@ function createWindow() {
     title: "Las Rosas",
     width: 500,
     height: 500,
-    maxHeight: 600,
-    maxWidth: 600,
-    minHeight: 400,
-    minWidth: 400,
     backgroundColor: '#7B435B',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, './preload.js'),
       nodeIntegration: true,
-      enableRemoteModule: true,
+      contextIsolation: true,
     }
   })
+}
+
+const handleChannel = async () => {
+  const { User } = require('./Model/User');
+  return await User.findAll();
+  // const { canceled, filePaths } = await dialog.showOpenDialog()
+  // if (!canceled) {
+  //   return filePaths[0]
+  // }
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  const { testConnection } = require('./sequelize');
+  if (!testConnection) {
+    dialog.showErrorBox('Error de conexion a base de datos', "No es posible conectar a la base de datos");
+    app.quit();
+    return;
+  }
+  ipcMain.handle('db', handleChannel);
+
   const window = createWindow();
 
   window.openDevTools();
 
   window.loadURL('http:/localhost:3000')
-
-  ipcMain.on('window', (event, path) => {
-    const webContents = event.sender;
-    const win = BrowserWindow.fromWebContents(webContents);
-    win.loadURL(path);
-  })
-
 }
 )
 
