@@ -38,6 +38,9 @@ app.whenReady().then(() => {
     app.quit();
     return;
   }
+
+  require('./ipc/ipcHandler')();
+
   ipcMain.handle('db', handleChannel);
 
   const window = createWindow();
