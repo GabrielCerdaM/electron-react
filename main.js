@@ -38,7 +38,7 @@ app.whenReady().then(() => {
 
   window.openDevTools();
 
-  window.loadURL('http:/localhost:3000/login')
+  window.loadURL('http:/localhost:3000/home')
 }
 )
 

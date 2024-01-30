@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Navigate } from "react-router-dom";
 
 export default function Login() {
 
@@ -18,6 +19,7 @@ export default function Login() {
         console.log('handleSubmit');
         const resp = await window.electronAPI.login();
         console.log({resp});
+        Navigate("/");
         // Perform your login logic here with 'email' and 'password'
     };
 

@@ -4,6 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter,RouterProvider} from 'react-router-dom';
 import Login from './routes/Login';
+import Layout from './Layout/Layout';
+import FormContract from './Layout/form/FormContract'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -15,6 +17,18 @@ const router = createBrowserRouter([
   {
     path:'/login',
     element: <Login/>
+  },
+  {
+    path:"clients",
+    element:<></>
+  },
+  {
+    path:"home",
+    element: <Layout/>
+  },
+  {
+    path:'/contract',
+    element: <FormContract/>
   }
 ])
 
