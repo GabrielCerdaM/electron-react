@@ -1,9 +1,11 @@
-import { ipcMain } from "electron";
-import { User } from './../Model/User';
+const { ipcMain } =  require("electron");
+const { User } = require('./../Model/User');
 const handleTest = async () => {
     return await User.findAll();
 }
 
-export default function ipcTest() {
+function ipcTest() {
     ipcMain.handle('db', handleTest);
 }
+
+module.exports = { ipcTest }

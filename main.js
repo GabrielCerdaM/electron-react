@@ -19,15 +19,6 @@ function createWindow() {
   })
 }
 
-const handleChannel = async () => {
-  const { User } = require('./Model/User');
-  return await User.findAll();
-  // const { canceled, filePaths } = await dialog.showOpenDialog()
-  // if (!canceled) {
-  //   return filePaths[0]
-  // }
-}
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -39,15 +30,15 @@ app.whenReady().then(() => {
     return;
   }
 
-  require('./ipc/ipcHandler')();
-
-  ipcMain.handle('db', handleChannel);
+  const {ipcHandler}  = require('./ipc/ipcHandler');
+  ipcHandler();
+  // ipcMain.handle('db', handleChannel);
 
   const window = createWindow();
 
   window.openDevTools();
 
-  window.loadURL('http:/localhost:3000')
+  window.loadURL('http:/localhost:3000/login')
 }
 )
 

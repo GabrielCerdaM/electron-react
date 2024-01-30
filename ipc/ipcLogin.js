@@ -1,9 +1,10 @@
-import { ipcMain } from "electron";
-import { User } from './../Model/User';
+const { ipcMain } = require("electron");
+const { User } = require('./../Model/User');
 const handleLogin = async () => {
     return await User.findAll();
 }
 
-export default function ipcLogin() {
+function ipcLogin() {
     ipcMain.handle('login', handleLogin);
 }
+module.exports = { ipcLogin }
