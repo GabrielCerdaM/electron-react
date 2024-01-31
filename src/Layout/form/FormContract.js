@@ -3,18 +3,84 @@ import { useState } from "react";
 export default function FormContract() {
 
     const [inputs, setInputs] = useState({
-        rut:'',
-        name:'',
-        phone:'',
-        address:'',
-        email:'',
-        kindship:'',
-        dateDeceased:'',
-        typeBenefit:'',
-        amountBenefit:'',
-        wakeAddress:'',
-        cementery:'',
+        rut: '',
+        name: '',
+        phone: '',
+        address: '',
+        email: '',
+        kindship: '',
+        dateDeceased: '',
+        typeBenefit: '',
+        amountBenefit: '',
+        wakeAddress: '',
+        cementery: '',
     });
+
+    const validationRules = {
+        rut: {
+            required: true,
+            regex: /^[0-9]{7,8}-[0-9Kk]$/, // Example regex for a Chilean RUT
+        },
+        name: {
+            required: true,
+            minLength: 2,
+        },
+        phone: {
+            required: true,
+            regex: /^[0-9]{9}$/, // Example regex for a 9-digit phone number
+        },
+        address: {
+            required: true,
+        },
+        email: {
+            required: false,
+            email: true, // You can use a more complex email validation regex here
+            regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        },
+        kindship: {
+            required: true,
+            minLength: 2,
+        },
+        rutDeceased: {
+            required: true,
+            regex: /^[0-9]{7,8}-[0-9Kk]$/, // Example regex for a Chilean RUT
+        },
+        nameDeceased: {
+            required: true,
+        },
+        dateDeceased: {
+            required: true,
+            regex: /^\d{4}-\d{2}-\d{2}$/,
+            date: true, // You can implement date validation logic here
+        },
+        typeBenefit: {
+            required: true,
+        },
+        amountBenefit: {
+            required: false,
+            numeric: true, // You can implement numeric validation logic here
+        },
+        wakeAddress: {
+            required: false,
+        },
+        cementery: {
+            required: false,
+        },
+    };
+
+    const mock = {
+        rut: '19.412.216-0',
+        name: 'Nombre de prueba',
+        phone: '999999999',
+        address: 'direccion falsa',
+        email: 'correo@email.cl',
+        kindship: 'parentezco',
+        dateDeceased: '1990-12-12',
+        typeBenefit: 'AFP',
+        amountBenefit: '999999',
+        wakeAddress: 'Direccion falsa',
+        cementery: 'Direccion falsa',
+    }
     const [errors, setErrors] = useState({});
 
     const formatRut = (rut) => {
@@ -44,56 +110,16 @@ export default function FormContract() {
         setInputs(values => ({ ...values, [name]: value }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const errors = validateForm(inputs);
-        setErrors(errors);
+        // const errors = validateForm(inputs);
+        // if (errors) {
+        //     setErrors(errors);
+        //     return;
+        // }
+        const resp = await window.api.test(mock);
+        console.log({ resp });
     }
-
-    const validationRules = {
-        rut: {
-            required: true,
-            regex: /^[0-9]{7,8}-[0-9Kk]$/, // Example regex for a Chilean RUT
-        },
-        name: {
-            required: true,
-            minLength: 2,
-        },
-        phone: {
-            required: true,
-            regex: /^[0-9]{9}$/, // Example regex for a 9-digit phone number
-        },
-        address: {
-            required: true,
-        },
-        email: {
-            required: true,
-            email: true, // You can use a more complex email validation regex here
-            regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        },
-        kindship: {
-            required: true,
-            minLength: 2,
-        },
-        dateDeceased: {
-            required: true,
-            regex: /^\d{4}-\d{2}-\d{2}$/,
-            date: true, // You can implement date validation logic here
-        },
-        typeBenefit: {
-            required: true,
-        },
-        amountBenefit: {
-            required: true,
-            numeric: true, // You can implement numeric validation logic here
-        },
-        wakeAddress: {
-            required: true,
-        },
-        cementery: {
-            required: true,
-        },
-    };
 
     // Validation function
     const validateForm = (formData) => {

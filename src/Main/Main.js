@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const paintSpan = async (setConnection) => {
     try {
-        const resp = await window.api.handleChannel();
+        const resp = await window.api.test();
         console.log({ resp });
         // const resp = await window.api.test()
         // console.log({resp});
@@ -14,7 +14,7 @@ const paintSpan = async (setConnection) => {
 
 const getUsers = async () => {
     try {
-        const resp = await window.api.handleChannel();
+        const resp = await window.api.test();
         console.log({ resp });
     } catch (error) {
         console.log({ error });

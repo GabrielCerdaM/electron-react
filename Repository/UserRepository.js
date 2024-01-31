@@ -1,8 +1,18 @@
-const { User } = require('../../Model/User');
+const { User } = require('./../Model/User');
 
 class UserRepository {
-    async getAll() { 
-        return await User.findAll();
+
+    getAll() {
+        return User.findAll();
+    }
+
+    create(formData) {
+        try {
+            console.log('UserRepository ', { formData });
+            return User.create(formData)
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

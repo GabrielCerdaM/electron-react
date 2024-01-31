@@ -1,10 +1,17 @@
-const { User } = require('../Model/User');
 const UserRepository = require('./../Repository/UserRepository')
 
 class UserService {
-    async getAllUsers() {
-        return await User.findAll();
-        // return UserRepository.getAll();
+    getAllUsers() {
+        // return await User.findAll();
+        return UserRepository.getAll();
+    }
+
+    create(formData) {
+        try {
+            return UserRepository.create(formData)
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

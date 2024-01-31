@@ -23,7 +23,9 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
   const { testConnection } = require('./sequelize');
+
   if (!testConnection) {
     dialog.showErrorBox('Error de conexion a base de datos', "No es posible conectar a la base de datos");
     app.quit();
@@ -31,14 +33,14 @@ app.whenReady().then(() => {
   }
 
   const {ipcHandler}  = require('./ipc/ipcHandler');
+
   ipcHandler();
-  // ipcMain.handle('db', handleChannel);
 
   const window = createWindow();
 
   window.openDevTools();
 
-  window.loadURL('http:/localhost:3000/home')
+  window.loadURL('http:/localhost:3000/contract')
 }
 )
 
